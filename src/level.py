@@ -8,14 +8,14 @@ from debug import debug
 from ui import UI
 from attack import *
 from magic import *
-from upgrade_menu import Upgrade
+from menus import *
 
 
 class Level:
     def __init__(self):
         # get display for the surface
         self.display_surface = pygame.display.get_surface()
-        self.game_paused = False
+        
         # sprite groupings
         self.visible_sprites = YCameraGroup()
         self.obstacle_sprites = pygame.sprite.Group()
@@ -31,19 +31,30 @@ class Level:
 
         # display UI
         self.ui = UI()
+        self.game_paused = False
+        self.quest_display = False
+        self.control_display = True
         self.upgrade_menu = Upgrade(self.player)
+        self.control_menu =  ControlsMenu()
+        self.quest_menu = QuestMenu()
 
     def create_map(self):
         # forming the world by creating obstacles on top of an image
-        # 'objects': import_csv_layout('')
+        # 
         layouts = {
             'boundary': import_csv_layout('./level_graphics/map/map_boundaries.csv'),
             'bushes': import_csv_layout('./level_graphics/map/map_bushes.csv'),
+            'objects': import_csv_layout('./level_graphics/map/map_objects.csv'),
             'entities': import_csv_layout('./level_graphics/map/map_entities.csv')
         }
         # storing all graphics by type
         graphics = {
-            'bushes': import_folder('./level_graphics/environment/bush')
+            'bushes': import_folder('./level_graphics/environment/bush/bush.png'),
+            '13': import_folder('./level_graphics/environment/objects/tree.png'),
+            '12': import_folder('./level_graphics/environment/objects/snow-tree.png'),
+            '1': import_folder('./level_graphics/environment/objects/large-rock.png'),
+            '0': import_folder('./level_graphics/environment/objects/desert-rock.png'),
+            '2': import_folder('./level_graphics/environment/objects/snow-rock.png')
         }
 
         for style, layout in layouts.items():
@@ -56,13 +67,24 @@ class Level:
                         if style == 'boundary':
                             Tile((x, y),
                                  self.obstacle_sprites, 'invisible')
+                        
                         if style == 'bushes':
-                            # creating a bush
+                            # create bush
                             bush_image = graphics['bushes']
-                            Bush((x, y), [self.visible_sprites,
+                            Tile((x, y), [self.visible_sprites,
                                           self.obstacle_sprites, 
                                           self.attackable_sprites], 
                                           'bush', bush_image)
+                            
+                        if style == 'objects':
+                            # create object
+                            object_image = graphics[str(voxel)]
+                            Tile((x, y), [self.visible_sprites,
+                                    self.obstacle_sprites, 
+                                    self.attackable_sprites], 
+                                    'objects', object_image)
+
+                        
                         if style == 'entities':
                             if voxel == '12': 
                                 self.player = Player((x, y), 
@@ -121,24 +143,43 @@ class Level:
                     for target in collision_sprites:
                         if target.sprite_type == 'bush':
                             target.kill()
+                        elif target.sprite_type == 'objects':
+                            pass
                         else:
                             target.get_damage (self.player, attack_sprite.sprite_type)
 
     def add_exp(self, exp_amount):
         self.player.exp += exp_amount
     
-    def toggle_menu(self):
+    def toggle_upgrade_menu(self):
         self.game_paused = not self.game_paused
 
+    def toggle_quest_menu(self):
+        self.quest_display = not self.quest_display
+
+    def toggle_control_menu(self):
+        self.control_display = not self.control_display
 
     def run(self):
         # update and draw the level the player is on
         self.visible_sprites.custom_draw(self.player)
         self.ui.display(self.player)
         if self.game_paused:
-            # display menu when game is paused
+            # other menus close
+            self.quest_display = False
+            # display upgrade menu 
             self.upgrade_menu.display()
-
+        elif self.control_display:
+            self.game_paused = False
+            self.quest_display = False
+            # display control menu
+            self.control_menu.display()
+        elif self.quest_display:
+            self.game_paused = False
+            self.control_display = False
+            # display quest menu
+            self.quest_menu.display()
+        
         else:
             # Run game
             self.visible_sprites.update()

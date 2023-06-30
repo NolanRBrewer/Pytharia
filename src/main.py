@@ -14,6 +14,7 @@ class Game:
         self.level = Level()
 
     def run(self):
+        
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -21,8 +22,12 @@ class Game:
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_e:
-                        self.level.toggle_menu()
-            self.screen.fill('blue')
+                        self.level.toggle_upgrade_menu()
+                    if event.key == pygame.K_q:
+                        self.level.toggle_quest_menu()
+                    if event.key == pygame.K_c:
+                        self.level.toggle_control_menu()
+            self.screen.fill(EDGE_COLOR)
             self.level.run()
             pygame.display.update()
             self.clock.tick(FPS)

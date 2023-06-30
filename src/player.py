@@ -9,15 +9,15 @@ class Player(Entity):
         self.image = pygame.image.load('./level_graphics/characters/player/down.png').convert_alpha()
         self.status = 'down'
         self.rect = self.image.get_rect(topleft=pos)
-        self.hitbox = self.rect.inflate(-10, -20)
+        self.hitbox = self.rect.inflate(-10, HITBOX_OFFSET['player'])
          # Player Stats
-        self.stats = {'health': 100,'magic': 100, 'attack': 10, 'wisdom': 4, 'speed': 5}
-        self.max_stats = {'health': 300,'magic': 250, 'attack': 20,'wisdom': 10, 'speed': 12}
+        self.stats = {'health': 100,'magic': 100, 'attack': 10, 'wisdom': 4, 'speed': 4}
+        self.max_stats = {'health': 300,'magic': 250, 'attack': 20,'wisdom': 10, 'speed': 8}
         self.upgrade_cost = {'health': 100,'magic': 100, 'attack': 100, 'wisdom': 100, 'speed': 100}
         self.health = self.stats['health']
         self.mana = self.stats['magic']
-        self.speed = 45 / FPS * self.stats['speed']
-        self.exp = 0
+        self.speed = self.stats['speed']
+        self.exp = 5000
         # attacking
         self.attacking = False
         self.attack_cd = 300
@@ -161,7 +161,7 @@ class Player(Entity):
 
     def mana_recovery(self):
         if self.mana < self.stats['magic']:
-            self.mana += 0.05
+            self.mana += (0.01 * self.stats['wisdom']) 
         else:
             self.mana = self.stats['magic']
 
@@ -185,4 +185,4 @@ class Player(Entity):
         self.mana_recovery()
         self.natural_regen()
         # movement
-        self.movement(self.speed)
+        self.movement(self.stats['speed'])

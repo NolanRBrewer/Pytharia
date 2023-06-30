@@ -13,16 +13,8 @@ def import_csv_layout(path):
 
 
 def import_folder(path):
-    # surface_list = []
-    for _, __, img_file in walk(path):
-        # print(img_file)
-        for image in img_file:
-            # print(image)
-            full_path = f"{path}/{image}"
-            # print(full_path)
-            image_surface = pygame.image.load(full_path).convert_alpha()
-            # surface_list.append(image_surface)
-        return image_surface
+    image_surface = pygame.image.load(path).convert_alpha()
+    return image_surface
 
 
 # import_folder('./level_graphics/environment/bush')
