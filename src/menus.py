@@ -1,6 +1,5 @@
 import pygame
 from settings import *
-from support import import_folder
 
 class Upgrade:
     def __init__(self, player):
@@ -248,16 +247,14 @@ class ControlsWindow:
             surface.blit(info_surface, info_rect)
             # upgrade menu
             info_surface = self.font.render(texts['upgrade_menu'], False, TEXT_COLOR)
-            info_rect = info_surface.get_rect(center= self.rect.center + pygame.math.Vector2(340,60))
+            info_rect = info_surface.get_rect(center= self.rect.center + pygame.math.Vector2(340,55))
             surface.blit(info_surface, info_rect)
 
         elif index == 2:
-            text = 'This game was created and illustrated by Nolan Brewer.'
+            # rendering for credits menu box
             text2 = 'Thank you to evereyone at Underdog Devs who made my'
             text3 = 'education journey possible.'
-            info_surface = self.font.render(text, False, TEXT_COLOR)
-            info_rect = info_surface.get_rect(center= self.rect.center - pygame.math.Vector2(-80,30))
-            surface.blit(info_surface, info_rect)
+            
             info_surface = self.font.render(text2, False, TEXT_COLOR)
             info_rect = info_surface.get_rect(center= self.rect.center + pygame.math.Vector2(70,0))
             surface.blit(info_surface, info_rect)
@@ -343,3 +340,76 @@ class QuestWindow:
         pygame.draw.rect(surface,UI_BG_COLOR, self.rect)
         pygame.draw.rect(surface,UI_BORDER_COLOR, self.rect, 4)
         self.display_quest(surface, name, objective)
+
+class TitleScreen:
+    def __init__(self):
+        # general set up
+        self.display_surface = pygame.display.get_surface()
+        self.font = pygame.font.Font(UI_FONT, UI_FONT_SIZE)
+        self.section_titles = ['Movement','Actions','Credits']
+        # self.section_images = [import_folder(''), import_folder(''), import_folder('')]
+        # display dimensions
+        self.height = self.display_surface.get_size()[1] * 0.25
+        self.width = self.display_surface.get_size()[0] * 0.8
+        self.create_control_window()
+    
+    def create_control_window(self):
+        windows_number = 3
+        self.control_windows = []
+        for index, control_window in enumerate(range(windows_number)):
+            # horizontal pos
+            full_height = self.display_surface.get_size()[1]
+            
+            left = (control_window) + self.width * 0.125
+            # vertical pos
+            offset  = full_height * 0.05
+            if index == 0:
+                # draw from top for first box
+                top = offset
+            else:
+                # calculate offset them draw box 
+                increment = index / windows_number
+
+                top = (full_height * increment) + offset
+
+            # create box
+            control_window = ControlsWindow(left,top,self.width,self.height, self.font)
+            self.control_windows.append(control_window)
+    
+    def display(self): 
+        
+        for index, control_window in enumerate(self.control_windows):
+            name = self.section_titles[index]
+            # image = self.section_images[index]
+            control_window.display(self.display_surface, name, index)
+
+class TitleScreen: 
+        def __init__(self,l,t,w,h,font):
+            self.rect = pygame.Rect(l,t,w,h)
+            self.font = font
+            self.quest_image = pygame.image.load('./level_graphics/menu_graphics/quest-scroll.png')
+        
+        def display_quest(self, surface, name, objective):
+            color = TEXT_COLOR
+            # title 
+            title_surface = self.font.render(name, False, color)
+            title_rect = title_surface.get_rect(midtop= self.rect.midtop + pygame.math.Vector2(0,20))
+            # info 
+            info_surface = self.font.render(f'Objective: {str(objective)}', False, color)
+            info_rect = info_surface.get_rect(center= self.rect.center)
+            # image display
+            width_offset = WIDTH * 0.12
+            height_offset = 280
+            image_surface = self.quest_image
+            image_rect = surface.get_rect(center=self.rect.center + pygame.math.Vector2(width_offset,height_offset))
+
+            # draw
+            surface.blit(title_surface,title_rect)
+            surface.blit(image_surface, image_rect)
+            surface.blit(info_surface, info_rect)
+
+        def display(self, surface, name, objective):
+            pygame.draw.rect(surface,UI_BG_COLOR, self.rect)
+            pygame.draw.rect(surface,UI_BORDER_COLOR, self.rect, 4)
+            self.display_quest(surface, name, objective)
+

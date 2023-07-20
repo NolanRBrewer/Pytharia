@@ -31,9 +31,10 @@ class Level:
 
         # display UI
         self.ui = UI()
-        self.game_paused = False
-        self.quest_display = False
-        self.control_display = True
+        self.upgrade_diplayed = False
+        self.quest_displayed = False
+        self.control_displayed = True
+        self.title_screen = True
         self.upgrade_menu = Upgrade(self.player)
         self.control_menu =  ControlsMenu()
         self.quest_menu = QuestMenu()
@@ -152,31 +153,35 @@ class Level:
         self.player.exp += exp_amount
     
     def toggle_upgrade_menu(self):
-        self.game_paused = not self.game_paused
+        self.upgrade_diplayed = not self.upgrade_diplayed
 
     def toggle_quest_menu(self):
-        self.quest_display = not self.quest_display
+        self.quest_displayed = not self.quest_displayed
 
     def toggle_control_menu(self):
-        self.control_display = not self.control_display
+        self.control_displayed = not self.control_displayed
+
+    def exit_title_screen(self):
+        self.title_screen = False
 
     def run(self):
         # update and draw the level the player is on
         self.visible_sprites.custom_draw(self.player)
         self.ui.display(self.player)
-        if self.game_paused:
+
+        if self.upgrade_diplayed:
             # other menus close
-            self.quest_display = False
+            self.quest_displayed = False
             # display upgrade menu 
             self.upgrade_menu.display()
-        elif self.control_display:
-            self.game_paused = False
-            self.quest_display = False
+        elif self.control_displayed:
+            self.upgrade_diplayed = False
+            self.quest_displayed = False
             # display control menu
             self.control_menu.display()
-        elif self.quest_display:
-            self.game_paused = False
-            self.control_display = False
+        elif self.quest_displayed:
+            self.upgrade_diplayed = False
+            self.control_displayed = False
             # display quest menu
             self.quest_menu.display()
         
