@@ -28,6 +28,7 @@ class Game:
                         self.level.toggle_quest_menu()
                     if event.key == pygame.K_c:
                         self.level.toggle_control_menu()
+
             self.screen.fill(EDGE_COLOR)
             self.level.run()
             pygame.display.update()
