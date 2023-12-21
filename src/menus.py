@@ -390,7 +390,6 @@ class TitleScreen():
             full_height = self.display_surface.get_size()[1]
             
             left = (self.display_surface.get_size()[0] - self.width) // 2
-            print(self.width)
             # vertical pos
             offset  = full_height * 0.3
             if index == 0:
@@ -426,7 +425,7 @@ class TitleWindow:
             self.cursor_image = pygame.image.load('./level_graphics/characters/player/right_attack.png')
         
         def trigger(self, selection_index):
-            # triggere functions based on
+            # trigger functions based on
             if selection_index == 0:
                 # exit title screen
                 print('play')
