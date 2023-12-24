@@ -34,8 +34,6 @@ class Level:
         self.upgrade_diplayed = False
         self.quest_displayed = False
         self.control_displayed = True
-        self.title_screen_displayed = False
-        self.title_screen = TitleScreen()
         self.upgrade_menu = Upgrade(self.player)
         self.control_menu =  ControlsMenu()
         self.quest_menu = QuestMenu()
@@ -162,17 +160,11 @@ class Level:
     def toggle_control_menu(self):
         self.control_displayed = not self.control_displayed
 
-    def exit_title_screen(self):
-        self.title_screen_displayed = False
-
     def run(self):
         # update and draw the level the player is on
         self.visible_sprites.custom_draw(self.player)
         self.ui.display(self.player)
-        if self.title_screen_displayed:
-            # no menus displayed
-            self.title_screen.display()
-        elif self.upgrade_diplayed:
+        if self.upgrade_diplayed:
             # other menus close
             self.quest_displayed = False
             self.control_displayed = False

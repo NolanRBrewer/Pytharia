@@ -342,113 +342,113 @@ class QuestWindow:
         pygame.draw.rect(surface,UI_BORDER_COLOR, self.rect, 4)
         self.display_quest(surface, name, objective)
 
-class TitleScreen():
-    def __init__(self):
-        # general set u
-        self.display_surface = pygame.display.get_surface()
-        self.font = pygame.font. Font(UI_FONT, UI_FONT_SIZE)
-        # option box text and image
-        self.options = ['Play', 'Controls', 'Quit']
-        self.option_numbers = len(self.options)
-        # option box dimensions
-        self.height = self.display_surface.get_size()[1] * 0.15
-        self.width = self.display_surface.get_size()[0] // 6
-        self.create_title_windows()
-        #  selection system
-        self.selection_index = 0
-        self.selection_time = None
-        self.can_move = True
+# class TitleScreen():
+#     def __init__(self):
+#         # general set u
+#         self.display_surface = pygame.display.get_surface()
+#         self.font = pygame.font. Font(UI_FONT, UI_FONT_SIZE)
+#         # option box text and image
+#         self.options = ['Play', 'Controls', 'Quit']
+#         self.option_numbers = len(self.options)
+#         # option box dimensions
+#         self.height = self.display_surface.get_size()[1] * 0.15
+#         self.width = self.display_surface.get_size()[0] // 6
+#         self.create_title_windows()
+#         #  selection system
+#         self.selection_index = 0
+#         self.selection_time = None
+#         self.can_move = True
     
-    def input(self):
-        controls = pygame.key.get_pressed()
+#     def input(self):
+#         controls = pygame.key.get_pressed()
 
-        if self.can_move:
-            if controls[pygame.K_w] and self.selection_index < self.option_numbers:
-                self.selection_index -= 1
-                self.can_move = False
-                self.selection_time = pygame.time.get_ticks()
-            if controls[pygame.K_s] and self.selection_index < self.option_numbers:
-                self.selection_index += 1
-                self.can_move = False
-                self.selection_time = pygame.time.get_ticks()
-            if controls[pygame.K_m]:
-                self.can_move = False
-                self.selection_time = pygame.time.get_ticks()
-                self.title_windows[self.selection_index].trigger(self.selection_index)
+#         if self.can_move:
+#             if controls[pygame.K_w] and self.selection_index < self.option_numbers:
+#                 self.selection_index -= 1
+#                 self.can_move = False
+#                 self.selection_time = pygame.time.get_ticks()
+#             if controls[pygame.K_s] and self.selection_index < self.option_numbers:
+#                 self.selection_index += 1
+#                 self.can_move = False
+#                 self.selection_time = pygame.time.get_ticks()
+#             if controls[pygame.K_m]:
+#                 self.can_move = False
+#                 self.selection_time = pygame.time.get_ticks()
+#                 self.title_windows[self.selection_index].trigger(self.selection_index)
 
-    def selection_cooldown(self):
-        if not self.can_move:
-            current_time = pygame.time.get_ticks()
-            if current_time - self.selection_time >= 300:
-                self.can_move = True
+#     def selection_cooldown(self):
+#         if not self.can_move:
+#             current_time = pygame.time.get_ticks()
+#             if current_time - self.selection_time >= 300:
+#                 self.can_move = True
 
-    def create_title_windows(self):
-        windows_number = 3
-        self.title_windows = []
-        for index, title_window in enumerate(range(windows_number)):
-            # horizontal pos
-            full_height = self.display_surface.get_size()[1]
+#     def create_title_windows(self):
+#         windows_number = 3
+#         self.title_windows = []
+#         for index, title_window in enumerate(range(windows_number)):
+#             # horizontal pos
+#             full_height = self.display_surface.get_size()[1]
             
-            left = (self.display_surface.get_size()[0] - self.width) // 2
-            # vertical pos
-            offset  = full_height * 0.3
-            if index == 0:
-                # draw from top for first box
-                top = offset
-            else:
-                offset = full_height * 0.15
-                # calculate offset then draw box 
-                increment = index / windows_number
+#             left = (self.display_surface.get_size()[0] - self.width) // 2
+#             # vertical pos
+#             offset  = full_height * 0.3
+#             if index == 0:
+#                 # draw from top for first box
+#                 top = offset
+#             else:
+#                 offset = full_height * 0.15
+#                 # calculate offset then draw box 
+#                 increment = index / windows_number
 
-                top = (full_height * increment) + offset
+#                 top = (full_height * increment) + offset
 
-            # create box
-            title_window = TitleWindow(left,top,self.width,self.height, self.font, index)
-            self.title_windows.append(title_window)
+#             # create box
+#             title_window = TitleWindow(left,top,self.width,self.height, self.font, index)
+#             self.title_windows.append(title_window)
     
-    def display(self):
-        # active functions
-        self.input()
-        self.selection_cooldown()
-        # used attributes
-        self.title_surface = pygame.image.load('./level_graphics/menu_graphics/Title_Screen_with_title.png').convert()
-        self.title_rect = self.title_surface.get_rect(topleft=(0,0))
-        self.display_surface.blit(self.title_surface, self.title_rect)
-        for index, title_window in enumerate(self.title_windows):
-            title_window.display(self.display_surface, self.selection_index, index)
+#     def display(self):
+#         # active functions
+#         self.input()
+#         self.selection_cooldown()
+#         # used attributes
+#         self.title_surface = pygame.image.load('./level_graphics/menu_graphics/Title_Screen_with_title.png').convert()
+#         self.title_rect = self.title_surface.get_rect(topleft=(0,0))
+#         self.display_surface.blit(self.title_surface, self.title_rect)
+#         for index, title_window in enumerate(self.title_windows):
+#             title_window.display(self.display_surface, self.selection_index, index)
 
-class TitleWindow: 
-        def __init__(self,l,t,w,h,font, index):
-            self.rect = pygame.Rect(l,t,w,h)
-            self.font = font
-            self.index = index
-            self.cursor_image = pygame.image.load('./level_graphics/characters/player/right_attack.png')
+# class TitleWindow: 
+#         def __init__(self,l,t,w,h,font, index):
+#             self.rect = pygame.Rect(l,t,w,h)
+#             self.font = font
+#             self.index = index
+#             self.cursor_image = pygame.image.load('./level_graphics/characters/player/right_attack.png')
         
-        def trigger(self, selection_index):
-            # trigger functions based on
-            if selection_index == 0:
-                # exit title screen
-                print('play')
-            if selection_index == 1:
-                # open controls
-                print('controls')
-            else:
-                pygame.quit()
-                sys.exit()
+#         def trigger(self, selection_index):
+#             # trigger functions based on
+#             if selection_index == 0:
+#                 # exit title screen
+#                 print('play')
+#             if selection_index == 1:
+#                 # open controls
+#                 print('controls')
+#             else:
+#                 pygame.quit()
+#                 sys.exit()
         
-        def display_option(self, surface, index):
-            color = UI_BORDER_COLOR_ACTIVE
-            text = ['Play', 'Credits', 'Quit']
-            # info 
-            info_surface = self.font.render(text[index], False, color)
-            info_rect = info_surface.get_rect(center= self.rect.center)
-            # image display
+#         def display_option(self, surface, index):
+#             color = UI_BORDER_COLOR_ACTIVE
+#             text = ['Play', 'Credits', 'Quit']
+#             # info 
+#             info_surface = self.font.render(text[index], False, color)
+#             info_rect = info_surface.get_rect(center= self.rect.center)
+#             # image display
             
-            # draw
-            surface.blit(info_surface, info_rect)
+#             # draw
+#             surface.blit(info_surface, info_rect)
 
-        def display(self, surface, selection_num, index):
-            pygame.draw.rect(surface, UI_BG_COLOR, self.rect)
-            pygame.draw.rect(surface,UI_BORDER_COLOR_ACTIVE if self.index == selection_num else UI_BG_COLOR, self.rect, 4)
-            self.display_option(surface, index)
+#         def display(self, surface, selection_num, index):
+#             pygame.draw.rect(surface, UI_BG_COLOR, self.rect)
+#             pygame.draw.rect(surface,UI_BORDER_COLOR_ACTIVE if self.index == selection_num else UI_BG_COLOR, self.rect, 4)
+#             self.display_option(surface, index)
 
