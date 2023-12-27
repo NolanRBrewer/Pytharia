@@ -8,10 +8,15 @@ class Flame(pygame.sprite.Sprite):
         self.sprite_type = 'magic'
         # graphic
         full_path  = f'./level_graphics/magic/{player.spell}.png'
+        #sound
+        self.sfx = pygame.mixer.Sound(magic_data[player.spell]['attack_sound'])
+        self.sfx.set_volume(0.2)
+
         # placement
         direction = player.status.split('_')[0]
         if player.mana >= magic_data[player.spell]['cost']:
             player.mana -= magic_data[player.spell]['cost']
+            self.sfx.play()
             self.image = pygame.image.load(full_path).convert_alpha()
             if direction == 'right':
                 self.rect = self.image.get_rect(midleft = player.rect.midright + pygame.math.Vector2(-10,10))
@@ -33,7 +38,12 @@ class Heal(pygame.sprite.Sprite):
         self.sprite_type = 'particle'
         # graphic
         full_path  = f'./level_graphics/magic/{player.spell}.png'
+        #sound
+        self.sfx = pygame.mixer.Sound(magic_data[player.spell]['attack_sound'])
+        self.sfx.set_volume(0.2)
+
         if player.mana >= magic_data[player.spell]['cost']:
+            self.sfx.play()
             self.image = pygame.image.load(full_path).convert_alpha()
             self.heal(player)
         else: 
@@ -53,10 +63,14 @@ class Bubble(pygame.sprite.Sprite):
         self.sprite_type = 'magic'
         # graphic
         full_path  = f'./level_graphics/magic/{player.spell}.png'
+        #sound
+        self.sfx = pygame.mixer.Sound(magic_data[player.spell]['attack_sound'])
+        self.sfx.set_volume(0.2)
         # placement and valid casting
         direction = player.status.split('_')[0]
         if player.mana >= magic_data[player.spell]['cost']:
             player.mana -= magic_data[player.spell]['cost']
+            self.sfx.play()
             self.image = pygame.image.load(full_path).convert_alpha()
             if direction == 'right':
                 self.rect = self.image.get_rect(midleft = player.rect.midright + pygame.math.Vector2(-10,10))
@@ -76,10 +90,14 @@ class Snowfall(pygame.sprite.Sprite):
         self.sprite_type = 'magic'
         # graphic
         full_path  = f'./level_graphics/magic/{player.spell}.png'
+        #sound
+        self.sfx = pygame.mixer.Sound(magic_data[player.spell]['attack_sound'])
+        self.sfx.set_volume(0.2)
         # placement and valid casting
         direction = player.status.split('_')[0]
         if player.mana >= magic_data[player.spell]['cost']:
             player.mana -= magic_data[player.spell]['cost']
+            self.sfx.play()
             self.image = pygame.image.load(full_path).convert_alpha()
             if direction == 'right':
                 self.rect = self.image.get_rect(midleft = player.rect.midright + pygame.math.Vector2(-10,10))
@@ -99,10 +117,14 @@ class Barrier(pygame.sprite.Sprite):
         self.sprite_type = 'bush'
         # graphic
         full_path  = f'./level_graphics/magic/{player.spell}.png'
+        #sound
+        self.sfx = pygame.mixer.Sound(magic_data[player.spell]['attack_sound'])
+        self.sfx.set_volume(0.2)
         # placement and valid casting
         direction = player.status.split('_')[0]
         if player.mana >= magic_data[player.spell]['cost']:
             player.mana -= magic_data[player.spell]['cost']
+            self.sfx.play()
             self.image = pygame.image.load(full_path).convert_alpha()
             if direction == 'right':
                 self.rect = self.image.get_rect(midleft = player.rect.midright + pygame.math.Vector2(0,10))

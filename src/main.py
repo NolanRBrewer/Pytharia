@@ -79,12 +79,17 @@ def main():
     title_rect = title_surface.get_rect(topleft=(0,0))
     screen.blit(title_surface, title_rect)
     game_state = GameState.TITLE
+    #sounds
+    title_sound = pygame.mixer.Sound('audio/themes/main.ogg')
+    title_sound.set_volume(0.2)
 
     while True:
         if game_state == GameState.TITLE:
+            title_sound.play(loops= -1)
             game_state = title_screen(screen)
 
         if game_state == GameState.NEWGAME:
+            title_sound.fadeout(2)
             game_state = play_level()
 
         if game_state == GameState.QUIT:
@@ -126,6 +131,9 @@ def title_screen(screen):
         for button in buttons:
             ui_action = button.update(pygame.mouse.get_pos(), mouse_up)
             if ui_action is not None:
+                ui_sound = pygame.mixer.Sound('audio/ui_sounds/upgrade.wav')
+                ui_sound.set_volume(0.3)
+                ui_sound.play()
                 return ui_action
             button.draw(screen)
 

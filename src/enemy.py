@@ -42,6 +42,9 @@ class Enemy(Entity):
         self.attack_radius = monster_info['attack_radius']
         self.chase_radius = monster_info['chase_radius']
         self.attack_type = monster_info['attack_type']
+        # sounds
+        self.attack_sfx = monster_info[self.monster_name]['attack_sound']
+        self.attack_sfx.set_volume(0.2)
     
     def detect_player(self,player):
         '''

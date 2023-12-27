@@ -37,6 +37,9 @@ class Player(Entity):
         self.spell_potency = magic_data[self.spell]['potency']
         self.spell_cost = magic_data[self.spell]['cost']
         self.can_change_magic = True
+        #sounds
+        self.weapon_sound = pygame.mixer.Sound(weapon_data[self.weapon]['attack_sound'])
+        self.weapon_sound.set_volume(0.2)
         # receiving damage
         self.vulnerable = True
         self.damage_time = None
@@ -72,6 +75,7 @@ class Player(Entity):
             #  attack input
             if controls[pygame.K_k]:
                 self.attacking = True
+                self.weapon_sound.play()
                 self.attack_time = pygame.time.get_ticks()
                 self.create_attack()
             if controls[pygame.K_m]:
@@ -86,12 +90,15 @@ class Player(Entity):
                 self.weapon_index += 1
                 self.weapon_index = self.weapon_index % len(list(weapon_data.keys()))
                 self.weapon = list(weapon_data.keys())[self.weapon_index]
+                self.weapon_sound = pygame.mixer.Sound(weapon_data[self.weapon]['attack_sound'])
             if controls[pygame.K_9] and self.can_change_weapon:
                 self.can_change_weapon = False
                 self.switch_time = pygame.time.get_ticks()
                 self.weapon_index -= 1
                 self.weapon_index = self.weapon_index % len(list(weapon_data.keys()))
                 self.weapon = list(weapon_data.keys())[self.weapon_index]
+                self.weapon_sound = pygame.mixer.Sound(weapon_data[self.weapon]['attack_sound'])
+
             # switch magic
             if controls[pygame.K_p] and self.can_change_magic:
                 self.can_change_magic = False
