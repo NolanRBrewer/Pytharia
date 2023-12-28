@@ -49,7 +49,7 @@ weapon_data = {
 magic_data = {
     'flame': {'cooldown': 100, 'potency': 20,'cost': 15, 'graphic': './level_graphics/magic/flame.png', 'attack_sound': 'audio/player_sfx/fire.wav'},
     'bubble': {'cooldown': 100, 'potency': 10, 'cost': 10 , 'graphic': './level_graphics/magic/bubble.png', 'attack_sound': 'audio/player_sfx/hit.wav'},
-    'snowfall': {'cooldown': 100, 'potency': 20, 'cost': 20 , 'graphic': './level_graphics/magic/snowfall.png', 'attack_sound': 'audio/player_sfx/battleaxe.wav'},
+    'snowfall': {'cooldown': 100, 'potency': 20, 'cost': 20 , 'graphic': './level_graphics/magic/snowfall.png', 'attack_sound': 'audio/player_sfx/snowfall.wav'},
     'barrier': {'cooldown': 100, 'potency': 0, 'cost': 10 , 'graphic': './level_graphics/magic/barrier.png', 'attack_sound': 'audio/player_sfx/magic_barrier.wav'},
     'heal': {'cooldown': 100, 'potency': 25, 'cost': 20, 'graphic': './level_graphics/magic/heal.png', 'attack_sound': 'audio/player_sfx/heal.wav'}
 }

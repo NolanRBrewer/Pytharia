@@ -40,7 +40,7 @@ class Heal(pygame.sprite.Sprite):
         full_path  = f'./level_graphics/magic/{player.spell}.png'
         #sound
         self.sfx = pygame.mixer.Sound(magic_data[player.spell]['attack_sound'])
-        self.sfx.set_volume(0.2)
+        self.sfx.set_volume(0.4)
 
         if player.mana >= magic_data[player.spell]['cost']:
             self.sfx.play()

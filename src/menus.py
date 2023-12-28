@@ -1,5 +1,5 @@
 import pygame
-import sys
+
 from settings import *
 
 class Upgrade:
@@ -19,6 +19,13 @@ class Upgrade:
         self.selection_index = 0
         self.selection_time = None
         self.can_move = True
+        #sounds
+        self.move_sound = pygame.mixer.Sound("audio/ui_sounds/hover.wav")
+        self.upgrade_sound = pygame.mixer.Sound('audio/ui_sounds/upgrade.wav')
+        self.move_sound.set_volume(0.2)
+        self.upgrade_sound.set_volume(0.2)
+        
+        
 
     def input(self):
         controls = pygame.key.get_pressed()
@@ -27,16 +34,19 @@ class Upgrade:
             if controls[pygame.K_d] and self.selection_index < self.attribute_numbers - 1:
                 self.selection_index += 1
                 self.can_move = False
+                self.move_sound.play()
                 self.selection_time = pygame.time.get_ticks()
             elif controls[pygame.K_a] and self.selection_index >= 1:
                 self.selection_index -= 1
                 self.can_move = False
+                self.move_sound.play()
                 self.selection_time = pygame.time.get_ticks()
             # selection button
             if controls[pygame.K_m]:
                 self.can_move = False
                 self.selection_time = pygame.time.get_ticks()
                 self.stat_windows[self.selection_index].trigger(self.player)
+                self.upgrade_sound.play()
             
     def selection_cooldown(self):
         if not self.can_move:

@@ -43,8 +43,12 @@ class Enemy(Entity):
         self.chase_radius = monster_info['chase_radius']
         self.attack_type = monster_info['attack_type']
         # sounds
-        self.attack_sfx = monster_info[self.monster_name]['attack_sound']
+        self.attack_sfx = pygame.mixer.Sound(monster_info['attack_sound'])
         self.attack_sfx.set_volume(0.2)
+        self.hit_sound = pygame.mixer.Sound('audio/player_sfx/hit.wav')
+        self.hit_sound.set_volume(0.2)
+        self.death_sound = pygame.mixer.Sound('audio/enemy_attacks/death.wav')
+        self.death_sound.set_volume(0.2)
     
     def detect_player(self,player):
         '''
@@ -80,6 +84,7 @@ class Enemy(Entity):
     def actions(self,player):
         if self.status == 'attack':
             self.attack_time = pygame.time.get_ticks()
+            self.attack_sfx.play()
             self.damage_player(self.attack_damage)
             self.can_attack = False
         elif self.status == 'chase':
@@ -95,6 +100,7 @@ class Enemy(Entity):
             elif attack_type == 'magic':
                 self.health -= player.get_full_magic_damage()
             self.hit_time = pygame.time.get_ticks()
+            self.hit_sound.play()
             self.vulnerable = False
     
     def hit_recoil(self):
@@ -103,6 +109,7 @@ class Enemy(Entity):
     
     def check_death(self):
         if self.health <= 0:
+            self.death_sound.play()
             self.kill()
             self.add_exp(self.exp)
 

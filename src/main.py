@@ -157,6 +157,10 @@ class Game:
         pygame.display.set_caption('Pytharia')
         self.clock = pygame.time.Clock()
         self.level = Level()
+        # sound
+        overworld_theme = pygame.mixer.Sound('audio/themes/overworld_theme.ogg')
+        overworld_theme.set_volume(0.35)
+        overworld_theme.play(loops= -1)
 
     def run(self):
         

@@ -37,6 +37,9 @@ class Level:
         self.upgrade_menu = Upgrade(self.player)
         self.control_menu =  ControlsMenu()
         self.quest_menu = QuestMenu()
+        #UI sounds
+        self.pause_sound = pygame.mixer.Sound('audio/ui_sounds/confirm.wav')
+        self.pause_sound.set_volume(0.3)
 
     def create_map(self):
         # forming the world by creating obstacles on top of an image
@@ -152,12 +155,15 @@ class Level:
         self.player.exp += exp_amount
     
     def toggle_upgrade_menu(self):
+        self.pause_sound.play()
         self.upgrade_diplayed = not self.upgrade_diplayed
 
     def toggle_quest_menu(self):
+        self.pause_sound.play()
         self.quest_displayed = not self.quest_displayed
 
     def toggle_control_menu(self):
+        self.pause_sound.play()
         self.control_displayed = not self.control_displayed
 
     def run(self):
