@@ -10,12 +10,15 @@ The fun challenge of this game's creation is to make a performant game running o
 2. Combat
   - Multiple weapons with differing attack delays and damage
   - Various spells to attack, heal, or block enemies
-  - Recoil based on enemy weight to make combat more dynamic 
+  - Recoil based on enemy weight to make combat more dynamic
+  - Attack, Magic, and damage sounds
 
 3. Menus
   - Quest Menu
   - Level up menu
   - Controls/ Credits menu
+  - Title screen
+  - Menu sounds
 
 ## Future Features
 1. World Interaction
@@ -28,7 +31,6 @@ The fun challenge of this game's creation is to make a performant game running o
 - Attack pattern and attack sprite integration for enemies
 
 3. Menus
-- Title Screen
 - Save feature
 - Quest completion notifier
   
